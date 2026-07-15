@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import {UpperCasePipe, CurrencyPipe} from '@angular/common';
 import { PrecoFormatadoPipe } from '../../pipes/preco-formatado-pipe';
+import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
+// adcionei os components input, output 14.07
 
 @Component({
   selector: 'app-produto',
@@ -9,15 +11,7 @@ import { PrecoFormatadoPipe } from '../../pipes/preco-formatado-pipe';
   styleUrl: './produto.css',
 })
 export class Produto {
-  //produto = 'Notebook';
-  //preco = 2500;
-  //mostrarPreco = true;
-  //mostrarProduto = false;
- produtos = [
-  {produto:'Monitor',preco: 1000},
-  {produto: 'Teclado',preco: 600},
-  {produto:'Gabinete',preco: 1200},
-  {produto:'Mouse',preco: 350},
-  {produto:'Fone',preco: 650}
- ];
+  @Input() nome: string = '';
+  @Input() preco: number = 0;
+ 
 }
