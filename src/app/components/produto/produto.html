@@ -1,23 +1,7 @@
-<!--Cria uma div para visualizar as informações do produto-->
-<!-- <div>
-    <h3>Produto: {{ produto }}</h3>
-    <p>Preco; R$ {{ preco }}</p>
-</div> -->
-<!--<div>
-    @for (item of produtos; track item){
-        <div>
-             <h3>Produto: {{ item.produto }}</h3>
-             <p>Preço: R${{item.preco}}</p>
-        <div>  
-    }
-</div>-->
+<div class="produto">
 
-<div>
-    <p>Lojinha da Adry</p>
-    @for (item of produtos; track item){
-        <div>
-             <h3>{{item.produto | uppercase}}</h3>
-             <p>{{item.preco | precoFormatado}}</p>
-        </div>
-    }
+    <h3>{{ nome | uppercase}}</h3>
+    <p>{{ preco | precoFormatado}}</p>
+
 </div>
+<!-- criei uma nova div, adiconando nome/preco-->
