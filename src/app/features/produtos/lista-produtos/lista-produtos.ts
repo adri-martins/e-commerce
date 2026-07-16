@@ -1,9 +1,12 @@
-import { Component, signal, Signal } from '@angular/core';
+import { Component, signal, Signal, } from '@angular/core';
 import { Produto } from '../produto/produto';
+import { computed } from '@angular/core';
+import { compileHmrUpdateCallback } from '@angular/compiler';
+import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto],
+  imports: [Produto, PrecoFormatadoPipe],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
@@ -22,5 +25,15 @@ export class ListaProdutos {
       ...listaAtual, {nome:'sony playstation 5', preco:100}
     ]);
   }
-}
-//atualizou e estruturou o arquivo: refactor
+  totalprodutos = computed(() => this.produtos().length);
+  valorTotal = computed(() => { return this.produtos().reduce((total, item)=> total + item.preco,0)});
+
+  substituirProdutos (){
+
+    this.produtos.set([
+      {nome: 'Arroz Fazenda', preco: 300},
+    ]);
+  }
+  }
+
+//adicinou import (produto), e adiconou função totalprodutos, valor total
