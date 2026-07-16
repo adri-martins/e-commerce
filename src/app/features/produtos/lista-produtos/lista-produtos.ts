@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, Signal } from '@angular/core';
 import { Produto } from '../produto/produto';
 
 @Component({
@@ -8,13 +8,19 @@ import { Produto } from '../produto/produto';
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-  produtos = [
+  produtos = signal([
     {nome:'Teclado', preco: 240},
     {nome:'Mouse', preco: 20},
     {nome:'Cadeira', preco: 450},
     {nome:'Monitor', preco: 349}
-  ];
+  ]);
   exibirProduto (nome: string){
     console.log ('Produto Selecionado: ', nome);
   }
+  adicionarProdutos(){
+    this.produtos.update(listaAtual => [
+      ...listaAtual, {nome:'sony playstation 5', preco:100}
+    ]);
+  }
 }
+//atualizou e estruturou o arquivo: refactor
