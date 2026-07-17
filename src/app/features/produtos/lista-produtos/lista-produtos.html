@@ -1,3 +1,13 @@
+<h2>
+Produto Selecionado: 
+@if (produtoSelecionado()){
+    <strong style="color:rgb(255, 71, 47);">
+        {{produtoSelecionado()}}
+    </strong>
+}@else {
+    <span style="color:aqua"> Nenhum </span>
+}
+</h2>
 @for (item of produtos(); track item){
     <app-produto
     [nome] = "item.nome"
@@ -10,3 +20,4 @@
 <h2>Total de produtos: {{totalprodutos()}}</h2>
 <h3>Valor total: {{valorTotal() | precoFormatado}}</h3>
 <p><button (click)="substituirProdutos()">substituir Produtos</button></p>
+<!--adicona h2 com funcionalidade de solucionar produto e muda a cor automaticamente-->
