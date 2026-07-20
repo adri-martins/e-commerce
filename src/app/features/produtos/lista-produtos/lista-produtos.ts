@@ -5,19 +5,21 @@ import { compileHmrUpdateCallback } from '@angular/compiler';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
 import e from 'express';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
   produtos = signal([
-    {nome:'Teclado', preco: 240},
-    {nome:'Mouse', preco: 20},
-    {nome:'Cadeira', preco: 450},
-    {nome:'Monitor', preco: 349}
+    {nome:'Teclado Gamer', preco: 149.00},
+    {nome:'Mouse Gamer', preco: 299.99},
+    {nome:'Monitor Gamer', preco: 1599.99},
+    {nome:'Desktop Gamer', preco: 4999.99},
+    {nome:'Headset Gamer', preco:699.99}
   ]);
   exibirProduto (nome: string){
     //console.log ('Produto Selecionado: ', nome);
@@ -25,7 +27,7 @@ export class ListaProdutos {
   }
   adicionarProdutos(){
     this.produtos.update(listaAtual => [
-      ...listaAtual, {nome:'sony playstation 5', preco:100}
+      ...listaAtual, {nome:'processador Intel core i5 ', preco:646}
     ]);
   }
   totalprodutos = computed(() => this.produtos().length);
@@ -34,7 +36,11 @@ export class ListaProdutos {
   substituirProdutos (){
 
     this.produtos.set([
-      {nome: 'Arroz Fazenda', preco: 300},
+      {nome: 'Teclado', preco: 40},
+      {nome: 'mouse', preco: 10},
+      {nome: 'Monitor', preco: 100},
+      {nome: 'Destop', preco: 500},
+      {nome: 'Headset', preco: 25}
     ]);
   }
   constructor(){
@@ -51,6 +57,18 @@ export class ListaProdutos {
     });
   }
   produtoSelecionado = signal<string |null> (null);
+  carrinho = signal <{ nome: string; preco: number }[]>([]);
+  adicionarAocarrinho(produto:{nome:string; preco: number}){
+    this.carrinho.update(listaAtual =>[
+      ...listaAtual,produto])};
+  
+      quantidadeCarrinho = computed(() => this.carrinho().length);
+      
+      totalCarrinho = computed(()=> {
+        return this.carrinho().reduce((total, item) =>
+      total + item.preco,0);
+      });
+  
   }
 
-//git commit -m "feat(produtos.ts): adicionar effects para atualizar o título da página,atualiza componentes e monitorar alteraçõess"
+//git commit -m "feat(produtos.ts): adicionar effects para atualizar o título da página,atualiza componentes e monitorar alterações"
