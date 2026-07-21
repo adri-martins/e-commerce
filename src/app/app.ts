@@ -1,17 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Produto } from './features/produtos/produto/produto';
-import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
+import { RouterOutlet, RouterLink } from '@angular/router';
+//import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
 
 @Component({
   selector: 'app-root',
-  imports: [ListaProdutos],
-  standalone: true,
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('e-commerce');
+  nomeLoja = 'ARM Infinity'; //NOME DO e-commerce
 }
-//adicionei import listaprodutos.14/07
 
