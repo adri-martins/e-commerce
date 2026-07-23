@@ -6,7 +6,8 @@ import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
 import e from 'express';
 import { UpperCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { produtosService } from '../produto/produto.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-lista-produtos',
@@ -16,8 +17,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ListaProdutos {
   //!remover a lista de produtos, dados carregados via API fakestoreapi
-  produtos = signal <
-  { nome: string; preco: number }[]>([]);
+  produtos = signal<{ nome: string; preco: number }[]>([]);
 // ? criar estado de carregamneto,
 // ** true: requisição em andamento, exibir indicador no template
 //! false: esconder indicador e exibir a 
@@ -26,41 +26,34 @@ export class ListaProdutos {
 
   //! criar o método para a requisição dos produtos
   carregarProdutos(){
-    //! Iniciar Loading
+      this.carregando.set(true);
 
-    this.carregando.set(true);
-    this.http.get < {title: string; price: number }[]>
-      ('https://fakestoreapi.com/products')
-      .subscribe({
+      this.produtosService.buscarProdutos().subscribe({
         next: (dados) => {
-
-          //!Adapta a API para nosso projeto
-          const produtosFormatados = dados.map(p =>({
-            nome: p.title,
-            preco:p.price
-          }));
-          this.produtos.set(produtosFormatados);
+          const produtos = this.produtosService.transformarProdutos(dados);
+          this.produtos.set(produtos);
           this.carregando.set(false);
         },
-//? Finaliza loading
-error: (erro) =>{
-  console.error('Erro ao carregar produtos: ', erro);
-  this.carregando.set(false); //! Evita loading Infinitos
-}
-    });
-  }
-    
+        error: (erro) => {
+          console.error('Erro ao carregar os Produtos:, ', erro);
+          this.carregando.set(false);
+        },
+      });
+    }
+  
   exibirProduto (nome: string){
-    //console.log ('Produto Selecionado: ', nome);
+    console.log ('Produto Selecionado: ', nome);
     this.produtoSelecionado.set(nome);
   }
-  adicionarProdutos(){
+
+  adicionarProduto(){
     this.produtos.update(listaAtual => [
       ...listaAtual, {nome:'processador Intel core i5 ', preco:646}
     ]);
   }
   totalprodutos = computed(() => this.produtos().length);
   valorTotal = computed(() => { return this.produtos().reduce((total, item)=> total + item.preco,0)});
+  
 
   substituirProdutos (){
 
@@ -71,9 +64,10 @@ error: (erro) =>{
       {nome: 'Destop', preco: 500},
       {nome: 'Headset', preco: 25}
     ]);
-  }
+}
+
   //! injetar httpClient dentro de constructor, restruturar constructor!!!
-  constructor ( private http: HttpClient ){ 
+  constructor(){ 
 
     //! carregar a API
     this.carregarProdutos();
@@ -91,6 +85,7 @@ error: (erro) =>{
   }
     });
   }
+  //metodo http (api) foi modificado para (produtosService)
   produtoSelecionado = signal<string |null> (null);
   carrinho = signal <{ nome: string; preco: number }[]>([]);
   adicionarAocarrinho(produto:{nome:string; preco: number}){
@@ -103,7 +98,8 @@ error: (erro) =>{
         return this.carrinho().reduce((total, item) =>
       total + item.preco,0);
       });
-  
-  }
+  // inject
+  private produtosService = inject(produtosService);
+    }
 
 //git commit -m "feat(produtos.ts): adicionar effects para atualizar o título da página,atualiza componentes e monitorar alterações"
