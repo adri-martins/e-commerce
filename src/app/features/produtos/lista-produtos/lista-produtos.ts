@@ -24,10 +24,12 @@ export class ListaProdutos {
 
   carregando = signal(true);
 
+  erro = signal < string | null > (null);
+
   //! criar o método para a requisição dos produtos
   carregarProdutos(){
-      this.carregando.set(true);
-
+      this.carregando.set(true); //! ativa loading
+      this.erro.set(null); //? limpa o erro anterior
       this.produtosService.buscarProdutos().subscribe({
         next: (dados) => {
           const produtos = this.produtosService.transformarProdutos(dados);
@@ -36,6 +38,7 @@ export class ListaProdutos {
         },
         error: (erro) => {
           console.error('Erro ao carregar os Produtos:, ', erro);
+          this.erro.set('Erro ao carregar os produtos. Verifique sua conexão e tente novamente!');
           this.carregando.set(false);
         },
       });
@@ -66,7 +69,7 @@ export class ListaProdutos {
     ]);
 }
 
-  //! injetar httpClient dentro de constructor, restruturar constructor!!!
+// ? metodo http (API) foi modificado para (produto service)!!!
   constructor(){ 
 
     //! carregar a API
@@ -84,8 +87,8 @@ export class ListaProdutos {
     document.title = `(${this.totalprodutos()}) Minha Loja`;
   }
     });
+    
   }
-  //metodo http (api) foi modificado para (produtosService)
   produtoSelecionado = signal<string |null> (null);
   carrinho = signal <{ nome: string; preco: number }[]>([]);
   adicionarAocarrinho(produto:{nome:string; preco: number}){
@@ -98,8 +101,6 @@ export class ListaProdutos {
         return this.carrinho().reduce((total, item) =>
       total + item.preco,0);
       });
-  // inject
+  //? ================ INJECT ==============
   private produtosService = inject(produtosService);
-    }
-
-//git commit -m "feat(produtos.ts): adicionar effects para atualizar o título da página,atualiza componentes e monitorar alterações"
+  }
