@@ -2,10 +2,11 @@ import { Component, Input, Output, EventEmitter, output } from '@angular/core';
 import {UpperCasePipe, CurrencyPipe} from '@angular/common';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { ListaProdutos } from '../lista-produtos/lista-produtos';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-produto',
-  imports: [UpperCasePipe, PrecoFormatadoPipe],
+  imports: [UpperCasePipe, PrecoFormatadoPipe, MatButtonModule],
   templateUrl: './produto.html',
   styleUrl: './produto.css',
 })
@@ -24,6 +25,7 @@ selecionarProduto() {
   nome: string;
   preco: number;
  }>();
+
  adicionarAoCarrinho() {
   this.produtoAdicionado.emit({ nome: this.nome, preco: this.preco});
  }
