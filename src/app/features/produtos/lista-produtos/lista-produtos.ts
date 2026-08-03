@@ -4,7 +4,6 @@ import { computed } from '@angular/core';
 import { compileHmrUpdateCallback } from '@angular/compiler';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
-import e from 'express';
 import { UpperCasePipe } from '@angular/common';
 import { produtosService } from '../produto/produto.service';
 import { inject } from '@angular/core';
