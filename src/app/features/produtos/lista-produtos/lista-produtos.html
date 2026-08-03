@@ -15,14 +15,13 @@ Produto Selecionado:
     (produtoSelecionado)="exibirProduto($event)"
     >
     </app-produto>
-    <button (click)="adicionarAocarrinho (item)">Adicionar ao carrinho</button>
+    <!--<button (click)="adicionarAocarrinho (item)">Adicionar ao carrinho</button><!-->
 }
 <p><button (click)="adicionarProduto()">Adicionar Produto</button></p>
 <h2>Total de produtos: {{totalprodutos()}}</h2>
 <h3>Valor total: {{valorTotal() | precoFormatado}}</h3>
 <p><button (click)="substituirProdutos()">substituir Produtos</button></p> -->
 <hr>
-
 <h2>Produtos:</h2>
 <!-- estado 1: loading -->
  @if(carregando()){
@@ -44,7 +43,9 @@ Produto Selecionado:
 @for(item of produtos (); track $index){
     <app-produto>
         [nome]= "item.nome"
-        [preco]= "item.preco"]
+        [preco]= "item.preco"
+        (produtoSelecionado)="exibirProduto($event)"
+        (produtoAdicionado)="adicionarAocarrinho($event)"
         >
     </app-produto>
     }
