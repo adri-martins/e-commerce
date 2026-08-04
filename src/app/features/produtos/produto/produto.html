@@ -1,15 +1,22 @@
-<div class="produto">
+<mat-card class="produto">
 
-    <h3>{{ nome | uppercase}}</h3>
+        <mat-card-header>
+    <mat-card-title>{{ nome | uppercase}}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
     <p>{{ preco | precoFormatado}}</p>
+</mat-card-content>
 
+<mat-card-actions>
    <button mat-stroked-button color="warn" (click)="selecionarProduto()">
     Selecionar {{ nome }}
 </button>
 
 <button  mat-raised-button color="primary" (click)="adicionarAoCarrinho()">
     adicionar ao carrinho
-
 </button>
+</mat-card-actions>
 
-</div>
+</mat-card>
+<!--nova div, com nova funcionalidade-->
