@@ -1,11 +1,10 @@
 
 <app-header></app-header>
 <!--controle de autenticação temporária-->
-<main styler="padding: 20px;">
-
-<section style="margin-bottom: 20px;">
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
+<main class="container-principal">
+<section class="bloco-controle">
+<button  mat-raised-button (click)="login()">Login</button>
+<button mat-raised-button (click)="logout()">Logout</button>
 <p>Status: {{ usuarioLogado() ? 'Logado' : 'Delogado'}}</p>
     </section>
 
