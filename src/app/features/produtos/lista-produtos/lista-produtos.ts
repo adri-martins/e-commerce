@@ -5,14 +5,15 @@ import { compileHmrUpdateCallback } from '@angular/compiler';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { effect } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
-import { produtosService } from '../produto/produto.service';
+import { produtosService } from '../../../core/services/produto.service';
 import { inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { CarrinhoService } from '../../../core/services/carrinho.service';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule,MatButtonModule],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule,MatButtonModule, ],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
@@ -73,10 +74,8 @@ export class ListaProdutos {
 // ? metodo http (API) foi modificado para (produto service)!!!
   constructor(){ 
 
-    //! carregar a API
     this.carregarProdutos();
 
-    //! effect continuam iguais
     effect(()=> {
   console.log('Lista de Produtos Alterados: ', this.produtos());
     });
@@ -90,18 +89,17 @@ export class ListaProdutos {
     });
     
   }
-  produtoSelecionado = signal<string |null> (null);
-  carrinho = signal <{ nome: string; preco: number }[]>([]);
+  produtoSelecionado = signal<string | null> (null);
+   
   adicionarAocarrinho(produto:{nome:string; preco: number}){
-    this.carrinho.update(listaAtual =>[
-      ...listaAtual,produto])};
-  
-      quantidadeCarrinho = computed(() => this.carrinho().length);
-      
-      totalCarrinho = computed(()=> {
-        return this.carrinho().reduce((total, item) =>
-      total + item.preco,0);
-      });
+    this.CarrinhoService.adicionar(produto);
+  }
+    
+       
   //? ================ INJECT ==============
-  private produtosService = inject(produtosService);
+    private produtosService = inject(produtosService);
+   public CarrinhoService = inject(CarrinhoService);
+
+  quantidadeCarrinho = this.CarrinhoService.quantidadeItens;
+  totalCarrinho = this.CarrinhoService.totalItens;
   }
