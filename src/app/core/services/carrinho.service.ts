@@ -2,6 +2,12 @@ import { Injectable } from "@angular/core";
 import { signal } from "@angular/core";
 import { computed } from "@angular/core";
 
+
+type ItemCarrinho={
+    nome: string;
+    preco: number; //criou para fazer aletração no carrinho
+}
+
 @Injectable({
     providedIn:'root'
 })
@@ -9,7 +15,7 @@ import { computed } from "@angular/core";
 export class CarrinhoService {
 
     //! Estado Global 
-private carrinho = signal<{nome: string; preco: number}[]>([]);
+private carrinho = signal<ItemCarrinho[]>([]);
 
 //? Seletores
 itens = computed(() => this.carrinho());
@@ -17,9 +23,10 @@ quantidadeItens= computed(() => this.carrinho().length); //!Quantidade de itens 
 totalItens = computed (() =>
     this.carrinho().reduce((total, item) => total + item.preco,0)
 );
+carrinhoVazio = computed(() => this.carrinho().length === 0); //verificar se o carrinho está vazio
 
 // TODO: Ações
-adicionar(produto: {nome: string; preco: number}){
+adicionar(produto: ItemCarrinho){
     this.carrinho.update(lista => [ ...lista, produto]);
 }
 
