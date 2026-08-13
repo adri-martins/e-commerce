@@ -1,47 +1,55 @@
-//criou arquivo dentro de services
-import { Injectable } from "@angular/core";
+//criacao de arquivo e remocao do outro
+import { Injectable} from "@angular/core";
 import { signal } from "@angular/core";
 import { computed } from "@angular/core";
 
+type PerfilUsuario = 'admin' | 'usuario';
+
 type Usuario = {
     email: string;
-    perfil: 'usuario';
+    perfil: PerfilUsuario;
 } 
 
 @Injectable({
-    providedIn: 'root'
+    providedIn:'root'
 })
 
 export class AuthService {
-    private usuario = signal<Usuario | null>(null);
-    private tokenJwt = signal<string | null>(null);
+    private usuario = signal<Usuario | null >(null);
+    private tokenJwt = signal<string | null >(null);
 
-    usuarioAtual = computed(() => this.usuario());
+    usurioAtual = computed(() => this.usuario());
     token = computed(() => this.tokenJwt());
     usuarioLogado = computed(() => this.usuario() !== null);
+    admin = computed(() => this.usuario()?.perfil === 'admin');
 
     login (email: string, senha: string): boolean{
         if(!email || !senha){
             return false;
-        
     }
+    const perfil:PerfilUsuario = email === 'admin@email.com' ? 'admin' : 'usuario';
     const tokenSimulado = 
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
 'eyJzdWIiOiJhbHVub0B0ZXN0ZS5jb20iLCJwZXJmaWwiOiJ1c3VhcmlvIn0.' 
 +'assinatura-simulada';
 
-    this.usuario.set({
-        email,
-        perfil: 'usuario',
-    });
-    this.tokenJwt.set(tokenSimulado);
-    return true;
+this.usuario.set({
+    email,
+    perfil,
+});
+
+this.tokenJwt.set(tokenSimulado)
+return true;
+
 }
-    logout(){
-        this.usuario.set(null);
-        this.tokenJwt.set(null);
-    }
-    obterToken(): string | null{
-        return this.tokenJwt();
+logout() {
+    this.usuario.set(null);
+    this.tokenJwt.set(null);
+}
+obterToken(): string | null{
+    return this.tokenJwt();
+}
+obterPerfil(): PerfilUsuario | null {
+    return this.usuario()?.perfil ?? null;
 }
 }
