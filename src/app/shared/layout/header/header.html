@@ -5,5 +5,11 @@
     <button mat-button routerLink="/carrinho"> Carrinho {{ quantidade() }}</button>
     <button mat-button routerLink="Home">Home</button>
     <button mat-button routerLink="/checkout"> Checkout</button>
+    @if(usuarioLogado()){
+        <span> {{usuarioAtual()?.email}}</span>
+        <button matt-button type="button" (click)="sair()">Sair</button>
+    }@else {
+        <button mat-button type="button" routerLink="/login">Entrar</button>
+    }
 </mat-toolbar>
 <!-- novo button de checkout-->
