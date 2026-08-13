@@ -25,6 +25,7 @@
 //! importações
 import { Routes } from "@angular/router";
 import { authGuard } from "./core/auth.guard";
+import { adminGuard } from "./core/admin.guard";
 
 export const routes: Routes =[
     {
@@ -52,6 +53,17 @@ export const routes: Routes =[
         path:'login',
         loadComponent:() =>
             import('./features/login/login/login').then((m) => m.Login),
+    },
+    {
+        path:'admin',
+        canActivate: [adminGuard],
+        loadComponent:() =>
+            import('./features/admin/admin/admin').then((m) => m.Admin),
+    },
+    {
+        path: 'acesso-negado',
+        loadComponent: () =>
+            import('./features/acesso-negado/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
     },
     {
         path:'**',
