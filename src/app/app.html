@@ -1,13 +1,6 @@
 
 <app-header></app-header>
-<!--controle de autenticação temporária-->
 <main class="container-principal">
-<section class="bloco-controle">
-<button  mat-raised-button (click)="login()">Login</button>
-<button mat-raised-button (click)="logout()">Logout</button>
-<p>Status: {{ usuarioLogado() ? 'Logado' : 'Delogado'}}</p>
-    </section>
-<!-- conteúdo dinâmico principal-->
+
 <router-outlet></router-outlet>
 </main>
-<!--levou pra dentro de main-->
