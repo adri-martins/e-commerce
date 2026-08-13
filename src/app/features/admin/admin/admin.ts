@@ -27,8 +27,9 @@ export class Admin {
     if(!usuario){
       return('Nenhum usuario Autenticado!');
     }
-    return `Usuario autenticado como: ${usuario.perfil}`;
+    return `{Usuario autenticado como: ${usuario.perfil}`;
   });
+  
   sair(){
     this.authService.logout();
     this.router.navigateByUrl('/login');
