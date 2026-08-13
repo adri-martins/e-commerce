@@ -4,6 +4,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../../core/services/carrinho.service';
+import { AuthService } from '../../../core/services/auth.service';
+
 @Component({
   selector: 'app-header',
   imports: [MatButtonModule, MatToolbarModule, MatIconModule, RouterLink,],
@@ -15,4 +17,12 @@ export class Header {
 
   private CarrinhoService = inject(CarrinhoService);
   quantidade = this.CarrinhoService.quantidadeItens;
+  private authService = inject(AuthService);
+  usuarioLogado = this.authService.usuarioLogado;
+  usuarioAtual = this.authService.usuarioAtual;
+
+
+  sair(){
+    this.authService.logout();
+  }
 }
