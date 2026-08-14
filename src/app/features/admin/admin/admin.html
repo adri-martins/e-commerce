@@ -1,53 +1,51 @@
 <section class="painel-admin">
 
-    <h2>Àrea Administartiva</h2>
+<h2>Área Administrativa</h2>
 
-    <hr>
-    <section class="bloco-admin">
-        <h3>Usuário Autenticado</h3>
-        @if(usuarioAtual()){
-            <p><strong>E-mail: </strong> {{ usuarioAtual()?.email }}
-                <p><strong>Perfil: </strong> {{usuarioAtual()?.perfil }}</p>
-            }
-    </section>
+<hr>
+<section class="bloco-admin">
+<h3>Usuário autenticado</h3>
+@if (usuarioAtual()) {
+<p><strong>E-mail:</strong> {{ usuarioAtual()?.email }}</p>
+<p><strong>Perfil:</strong> {{ usuarioAtual()?.perfil }}</p>
+<p>{{ mensagemPerfil() }}</p>
+}
+</section>
 
-    <hr>
-    <section class="card-admin">
-        <article>
-            <h3>Produtos Cadastrados</h3>
-            <p>{{totalProdutosCadastrados()}}</p>
-        </article>
+<hr>
+<section class="cards-admin">
+<article>
+<h3>Produtos cadastrados</h3>
+<p>{{ totalProdutosCadastrados() }}</p>
+</article>
 
-        <article>
-            <h3>Produtos Pendentes</h3>
-            <p>{{pedidiosPendentes()}}</p>
-        </article>
+<article>
+<h3>Pedidos pendentes</h3>
+<p>{{ pedidiosPendentes() }}</p>
+</article>
 
-        <article>
-            <h3>Usuários Cadastrados</h3>
-            <p>{{usuarioCadastrados()}}</p>
-        </article>
+<article>
+<h3>Usuários cadastrados</h3>
+<p>{{ usuarioCadastrados() }}</p>
+</article>
+</section>
 
-        <section>
-            <hr>
+<hr>
 
-            <section class="bloco-admin">
+<section class="bloco-admin">
+<h3>Ações administrativas</h3>
 
-            <h3>Ações Administrativas</h3>
+<p>
+Nesta etapa do curso, estas ações ainda são apenas representativas.
+Nas próximas evoluções, poderiam ser conectadas a APIs reais.
+</p>
 
-            <p>
-                Nessa Etapa as ações ainda são representativas
-                nas proximas evoluções, podem ser conectadas via API reais.
-            </p>
-            
-            <button type="button">Cadastrar Produtos</button>
-            <button type="button">Gerenciar Usuários</button>
-            <button type="button">Gerenciar Produtos</button>
-        </section>
+<button type="button">Cadastrar produto</button>
+<button type="button">Gerenciar pedidos</button>
+<button type="button">Gerenciar usuários</button>
+</section>
 
-        <hr>
-        <button type="button" (click)="sair()">Sair</button>
-    </section>
+<hr>
 
-
+<button type="button" (click)="sair()"> Sair </button>
 </section>
