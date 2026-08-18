@@ -1,31 +1,36 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule} from '@angular/material/toolbar';
-import { MatIconModule} from '@angular/material/icon';
-import { Router, RouterLink } from '@angular/router';
-import { inject } from '@angular/core';
-import { CarrinhoService } from '../../../core/services/carrinho.service';
-import { AuthService } from '../../../core/services/auth.service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule}  from '@angular/material/toolbar';
+import { RouterLink, Router } from '@angular/router';
+import { UpperCasePipe } from '@angular/common';
+import { inject, Injectable} from '@angular/core';
+import { AuthFacade } from '../../../core/facades/auth.facade';
+import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
+
 
 @Component({
   selector: 'app-header',
-  imports: [MatButtonModule, MatToolbarModule, MatIconModule, RouterLink],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, UpperCasePipe ],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
-  nomeLoja = 'ARMInfinit'; //nome do e-commerce
+  nomeLoja = 'MARTINS TECH'; //? nome do ecommerce
 
-  private CarrinhoService = inject(CarrinhoService);
-  private authService = inject(AuthService);
-  private router = inject(Router)
-  usuarioLogado = this.authService.usuarioLogado;
-  usuarioAtual = this.authService.usurioAtual;
-  quantidade = this.CarrinhoService.quantidadeItens;
- 
+  private carrinhoFacade = inject(CarrinhoFacade);
+  quantidade = this.carrinhoFacade.quantidadeCarrinho;
+  private authFacade = inject(AuthFacade);
 
-sair(){
-  this.authService.logout();
-  this.router.navigateByUrl('/login');
-}
+  usuarioLogado = this.authFacade.usuarioLogado;
+  usuarioAtual = this.authFacade.usuarioAtual;
+
+  private router = inject(Router);
+
+  sair(){
+    this.authFacade.sair();
+    this.router.navigateByUrl('/login');
+  }
+  
+
 }
