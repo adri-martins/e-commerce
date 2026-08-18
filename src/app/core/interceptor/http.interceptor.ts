@@ -4,14 +4,14 @@ import { tap } from "rxjs";
 import { catchError } from "rxjs";
 import { throwError } from "rxjs";
 import { inject } from "@angular/core";
-import { AuthService } from "../services/auth.service";
+import { AuthFacade } from "../facades/auth.facade";
 
 export const httpInterceptorFn: HttpInterceptorFn = (req, next) => { 
 
-const authService = inject(AuthService);
+const authFacade = inject(AuthFacade);
 
     //!    NOVO METODO TOKEN
-    const token = authService.obterToken();
+    const token = authFacade.obterToken();
     //! requisição de LOG
     console.log ('Requisição: ', req.url);
     //! TOKEN
