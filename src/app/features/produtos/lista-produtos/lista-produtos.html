@@ -9,7 +9,7 @@
 }
 
 @if(!carregando() && !erro()){
-    <p>Total de Produtos: {{ totalprodutos() }}</p>
+    <p>Total de Produtos: {{ totalProdutos() }}</p>
 <hr>
 <section class="grid-produtos">
 @for(item of produtos(); track $index){
@@ -17,7 +17,7 @@
         [nome] = "item.nome"
         [preco] = "item.preco"
         (produtoSelecionado)=" exibirProduto($event)"
-        (produtoAdicionado) = "adicionarAocarrinho($event)"
+        (produtoAdicionado) = "adicionarAoCarrinho($event)"
         >
     </app-produto>
  }
@@ -25,8 +25,8 @@
 }
     <hr>
  <h2>carrinho</h2>
-@for(item of CarrinhoService.itens(); track $index){
+@for(item of carrinhoFacade.itensCarrinho(); track $index){
         <p>{{item.nome | uppercase }} - {{item.preco | precoFormatado}}</p>
 }
-<p><strong>Itens no carrinho: </strong>{{ CarrinhoService.quantidadeItens() }}</p>
-<p><strong>Total no carrinho: </strong> {{ CarrinhoService.totalItens() | precoFormatado }}</p>
+<p><strong>Itens no carrinho: </strong>{{ carrinhoFacade.quantidadeCarrinho() }}</p>
+<p><strong>Total no carrinho: </strong> {{ carrinhoFacade.totalCarrinho() | precoFormatado }}</p>
