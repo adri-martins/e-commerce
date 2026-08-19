@@ -16,7 +16,7 @@ import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
   styleUrl: './header.css',
 })
 export class Header {
-  nomeLoja = 'MARTINS TECH'; //? nome do ecommerce
+  nomeLoja = 'ARMinfinit'; //? nome do ecommerce
 
   private carrinhoFacade = inject(CarrinhoFacade);
   quantidade = this.carrinhoFacade.quantidadeCarrinho;
