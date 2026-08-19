@@ -14,4 +14,3 @@ export const authGuard: CanActivateFn = () => {
    return router.createUrlTree(['/login']);
    
 }
-//SE O USUARIO TIVER AUTENTICADO O MESMO TERÁ ACESSO PARA A RORA
