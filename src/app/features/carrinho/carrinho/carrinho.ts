@@ -17,7 +17,7 @@ export class Carrinho {
    private authFacade = inject(AuthFacade);
 
 removerItem (rmvItem: number){
-  this.carrinhoFacade.limparCarrinho();
+  this.carrinhoFacade.removerItem(rmvItem);
 
 }
 
