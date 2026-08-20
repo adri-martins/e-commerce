@@ -14,15 +14,28 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthFacade } from '../../../core/facades/auth.facade';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
+import { ItemCarrinho } from '../../../core/models/item-carrinho';
 
-// novos imports
+
+type pedidoFinalizado = {
+  codigo: number;
+  cliente: string,
+  quantidadeItens: number;
+  total: number;
+  itens: ItemCarrinho[];
+}
+
 @Component({
   selector: 'app-checkout',
   imports: [ReactiveFormsModule, RouterLink, PrecoFormatadoPipe],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
+
 export class Checkout {
+  pedidoFinalizado = signal< pedidoFinalizado | null >(null);
+  //compraFinalizada = signal(false);
+
 
   CarrinhoFacade = inject(CarrinhoFacade);
   router = inject(Router);
@@ -34,8 +47,10 @@ export class Checkout {
     endereco: new FormControl('', [Validators.required, Validators.minLength(5)]),
   });
 
-  finalizar (){
-    this.compraFinalizada.set(false); //impede que finalize uma compra se o carrinho estiver vazio
+  finalizar () {
+    this.pedidoFinalizado.set(null);
+    //this.compraFinalizada.set(false); 
+    
     if(this.CarrinhoFacade.carrinhoVazio()){
       console.log('Não é possivel finalizar a compra com o carrinho vazio!');
       return;
@@ -49,18 +64,26 @@ export class Checkout {
     const itens = this.CarrinhoFacade.itensCarrinho();
     const total = this.CarrinhoFacade.totalCarrinho();
 
+    const pedido: pedidoFinalizado = {
+      codigo: Date.now(),
+      cliente: dados.nome ?? '',
+      quantidadeItens: itens.length,
+      total,
+      itens,
+    }
+
     console.log('Compra finalizada com sucesso!');
     console.log('Dados dos formulario: ', dados);
-    console.log('Itens do carrinho: ', itens);
-    console.log('Total da compra: ', total);
-
+    console.log(' Dados do pedidos: ', pedido);
+    
     this.CarrinhoFacade.limparCarrinho();
     this.formulario.reset();
-    this.compraFinalizada.set(true);
+   // this.compraFinalizada.set(true);
+    this.pedidoFinalizado.set(pedido);
 
   }
 
-compraFinalizada = signal(false)
+
 
 sair(){
   this.authFacade.sair();
