@@ -20,7 +20,7 @@ export class AuthService {
   private usuario = signal<Usuario | null>(this.carregarUsuarioSalvo());
   private tokenJwt = signal<string | null>(this.carregarTokenSalvo());
 
-  usuarioAtual = computed(() => this.usuario());
+  usurioAtual = computed(() => this.usuario());
   usuarioLogado = computed(() => this.usuario() !== null && this.tokenJwt() !== null);
   admin = computed(() => this.usuario()?.perfil === 'admin');
   token = computed(() => this.tokenJwt());
