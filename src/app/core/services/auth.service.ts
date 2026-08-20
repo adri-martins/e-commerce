@@ -1,142 +1,107 @@
-//criacao de arquivo e remocao do outro
-//criacao de arquivo e remocao do outro
-import { inject, Injectable} from "@angular/core";
-import { signal } from "@angular/core";
-import { computed } from "@angular/core";
-import { effect } from "@angular/core";
-import { PLATFORM_ID } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common"; //imports
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, computed, signal, inject, PLATFORM_ID } from '@angular/core';
 
-type PerfilUsuario = 'admin' | 'usuario';
+type PerfilUsuario = 'usuario' | 'admin';
 
 type Usuario = {
-    email: string;
-    perfil: PerfilUsuario;
+  email: string;
+  perfil: PerfilUsuario;
 };
 
 @Injectable({
-    providedIn:'root'
+  providedIn: 'root',
 })
-
 export class AuthService {
-    private usuario = signal<Usuario | null >(this.carregarUsuarioSalvo());
-    private tokenJwt = signal<string | null >(this.carregarTokenSalvo());
+  private platformId = inject(PLATFORM_ID);
 
-    usurioAtual = computed(() => this.usuario());
+  private readonly chaveUsuario = 'minha-loja-usuario';
+  private readonly chaveToken = 'minha-loja-token';
 
-    token = computed(() => this.tokenJwt());
+  private usuario = signal<Usuario | null>(this.carregarUsuarioSalvo());
+  private tokenJwt = signal<string | null>(this.carregarTokenSalvo());
 
-    usuarioLogado = computed(() => 
+  usuarioAtual = computed(() => this.usuario());
+  usuarioLogado = computed(() => this.usuario() !== null && this.tokenJwt() !== null);
+  admin = computed(() => this.usuario()?.perfil === 'admin');
+  token = computed(() => this.tokenJwt());
 
-    this.usuario() !== null && this.tokenJwt !==null
-    );
-
-    private estaNoNAvegador (): boolean{
-        return isPlatformBrowser(this.platformId);
+  login(email: string, senha: string): boolean {
+    if (!email || !senha) {
+      return false;
     }
 
+    // Regra: e-mail perfil será admin: admin@email.com . Outro e-mail: usuario comum.
+    const perfil: PerfilUsuario = email === 'admin@email.com' ? 'admin' : 'usuario';
 
-    private limparAutenticacaoSalva(){}
+    const usuarioLogado: Usuario = { email, perfil };
 
-    admin = computed(() => this.usuario()?.perfil === 'admin');
+    const tokenSimulado =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
+      'eyJzdWIiOiJhbHVub0B0ZXN0ZS5jb20iLCJwZXJmaWwiOiJ1c3VhcmlvIn0.' +
+      'assinatura-simulada';
 
+    this.usuario.set(usuarioLogado);
+    this.tokenJwt.set(tokenSimulado);
+    this.salvarAutenticacao(usuarioLogado, tokenSimulado);
 
-//PERSISTENCIA AUTH
+    return true;
+  }
 
-private platformId = inject(PLATFORM_ID);
-
-private readonly chaveUsuario = 'usuario-storage';
-private readonly chaveToken = 'token-storage';
-
-    login (email: string, senha: string): boolean{
-        if(!email || !senha){
-            return false;
-    }
-    const perfil:PerfilUsuario = email === 'admin@email.com' ? 'admin' : 'usuario';
-
-    const usuarioLogado: Usuario = {
-        email,
-        perfil,
-    };
-
-
-    const tokenSimulado = 
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-'eyJzdWIiOiJhbHVub0B0ZXN0ZS5jb20iLCJwZXJmaWwiOiJ1c3VhcmlvIn0.' 
-+'assinatura-simulada';
-
-this.usuario.set({
-    email,
-    perfil,
-});
-
-this.tokenJwt.set(tokenSimulado);
-this.usuario.set(usuarioLogado);
-
-this.salvarAutenticacao(usuarioLogado, tokenSimulado);
-//VOLTAR DEPOIS
-
-return true;
-
-
-}
-logout() {
+  logout() {
     this.usuario.set(null);
     this.tokenJwt.set(null);
-
     this.limparAutenticacaoSalva();
-}
-obterToken(): string | null{
+  }
+
+  obterToken(): string | null {
     return this.tokenJwt();
-}
-obterPerfil(): PerfilUsuario | null {
+  }
+
+  obterPerfil(): PerfilUsuario | null {
     return this.usuario()?.perfil ?? null;
-}
+  }
 
-private estaNoNavegador(): boolean{
+  private estaNoNavegador(): boolean {
     return isPlatformBrowser(this.platformId);
-}
+  }
 
-private carregarUsuarioSalvo(): Usuario | null {
-    if(!this.estaNoNAvegador()){
-        return null;
+  private carregarUsuarioSalvo(): Usuario | null {
+    if (!this.estaNoNavegador()) {
+      return null;
     }
     const dadosSalvos = localStorage.getItem(this.chaveUsuario);
-    if(!dadosSalvos){
-        return null;
-        
-    }try {
-        return JSON.parse(dadosSalvos) as Usuario;
-    }catch{
-        return null;
-    }
-}
 
-private carregarTokenSalvo(): string | null {
-    if(!this.estaNoNAvegador()){
-        return null;
+    if (!dadosSalvos) {
+      return null;
     }
 
+    try {
+      return JSON.parse(dadosSalvos) as Usuario;
+    } catch {
+      return null;
+    }
+  }
+
+  private carregarTokenSalvo(): string | null {
+    if (!this.estaNoNavegador()) {
+      return null;
+    }
     return localStorage.getItem(this.chaveToken);
-}
+  }
 
-private salvarAutenticacao(usuario: Usuario, token: string){
-
-    if(!this.estaNoNAvegador()){
-        return;
+  private salvarAutenticacao(usuario: Usuario, token: string) {
+    if (!this.estaNoNavegador()) {
+      return;
     }
-
     localStorage.setItem(this.chaveUsuario, JSON.stringify(usuario));
-    localStorage.setItem(this.chaveToken, (token));
-}
+    localStorage.setItem(this.chaveToken, token);
+  }
 
-private limparAuteticacaoSalva(){
-    
-    if(!this.estaNoNAvegador()){
-        return;
+  private limparAutenticacaoSalva() {
+    if (!this.estaNoNavegador()) {
+      return;
     }
-
     localStorage.removeItem(this.chaveUsuario);
     localStorage.removeItem(this.chaveToken);
-}
+  }
 }
