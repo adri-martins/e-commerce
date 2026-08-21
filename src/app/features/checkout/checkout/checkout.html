@@ -9,34 +9,33 @@
     <p><strong>Cliente: </strong>{{pedidoFinalizado()?.cliente}}</p>
     <p><strong>Quantidade: </strong>{{pedidoFinalizado()?.quantidadeItens}}</p>
     <p><strong>Total: </strong>{{pedidoFinalizado()?.total}}</p>
-    <button type="button" routerLink="/produto"> Voltar para compras </button>
+    <button mat-raised button color="primary" type="button" routerLink="/produto"> Voltar para compras </button>
     
    </section>
 }
 
 @if(CarrinhoFacade.carrinhoVazio() && !pedidoFinalizado()){
     <section class="carrinho-vazio">
-        <h3>Seu carrinho está vazio</h3>
+        <h3>SEU CARRINHO ESTÁ VAZIO</h3>
         <p>Adicione produtos antes de finalizar sua compra</p>
-        <button type="button" routerLink=";produtos">Ver produtos</button>
+        <button mat-raised button type="button" routerLink=";produtos">Ver produtos</button>
     </section>
 }@else if (!pedidoFinalizado()) {
     <section class="resumo-pedido">
         <h3>Resumo do pedido</h3>
         <p><strong>Itens do carrinho: </strong>{{ CarrinhoFacade.quantidadeCarrinho()}}</p>
         <p><strong>Total: </strong>{{CarrinhoFacade.totalCarrinho() | precoFormatado}}</p>
-        <button type="button" routerLink="/carrinho"> Revisar carrinho</button>
+        <button mat-raised-button color="primary" type="button" routerLink="/carrinho"> Revisar carrinho</button>
     </section>
-}
 
-<hr>
+    
 <form [formGroup]="formulario" class="form">
-
+<h3>Finalizar Compra!</h3>
     <p><input type="text" formControlName="nome" placeholder="Nome"></p>
     @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
         @if(formulario.get('nome')?.errors?.['required']){
     
-            <small style="color: blueviolet;">Nome é Obrigátorio!</small>
+            <small >Nome é Obrigátorio!</small>
         }
     }
     @if(formulario.get('nome')?.errors?.['minlength']){
@@ -61,7 +60,7 @@
     <p><input type="text" formControlName="endereco" placeholder="Endereço"></p>
      @if(formulario.get('endereco')?.touched && formulario.get('endereco')?.invalid){
         @if(formulario.get('endereco')?.errors?.['required']){
-             <small style="color: blueviolet;">Endereço é Obrigátorio!</small>
+             <small >Endereço é Obrigátorio!</small>
         }
     }
     @if(formulario.get('endereco')?.errors?.['minlength']){
@@ -70,6 +69,9 @@
     }
 <br>
 
-    <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>
+    <button mat-raised-button color="primary" type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>
 </form>
+}
+
+
 </section>
