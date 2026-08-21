@@ -105,3 +105,4 @@ export class AuthService {
     localStorage.removeItem(this.chaveToken);
   }
 }
+
