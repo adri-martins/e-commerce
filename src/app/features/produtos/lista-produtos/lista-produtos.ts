@@ -9,23 +9,29 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 import { ItemCarrinho } from '../../../core/models/item-carrinho';
+import { RouterLink } from '@angular/router';
+import { ProdutoLoja } from '../../../core/models/produto-loja';
+
+
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule, MatCardModule],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe, MatButtonModule, MatCardModule, RouterLink],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
 
   //!remover a lista de produtos, dados carregados via API Fakestoreapi
- produtos = signal < { nome: string; preco: number } []> ([]);
+ produtos = signal < ProdutoLoja[]> ([]);
  //? criar estado de carregamento, 
  // ** true: requisição em andamento, exibir indicador no template
  //! false: esconder indicador e exibir lista de produtos 
  carregando = signal(true);
-
+ produtoSelecionado = signal<string | null > (null);
  erro = signal <string | null> (null)
+ valorTotalFormatado = computed(() => this.valorTotal().toFixed(2));
+ 
 
 //?============= MÉTODO HTTP (API) FOI MODIFICADO PARA (ProdutoService) =================
 
@@ -83,24 +89,16 @@ substituirProduto() {
     //! Carregar a API
     this.carregarProdutos();
 
-    //! effects continuam iguais
-  effect(() => {
-    console.log('Lista de Produtos Alterados: ', this.produtos());
-
-  });
-  effect(() =>{
-    console.log('Valor Total Atualizados: ', this.valorTotal());
-
-  });
+    
   effect(() => {
     if (typeof document !== 'undefined') {
-      document.title = `(${this.totalProdutos()}) Minha Loja`;
+      document.title = `(${this.totalProdutos()}) Minha Loja `;
 
     }
   });
  }
  
- produtoSelecionado = signal <string | null > (null);
+ 
  
  adicionarAoCarrinho(produto:ItemCarrinho){
     this.carrinhoFacade.adiconarProdutoCarrinho(produto);
@@ -108,7 +106,7 @@ substituirProduto() {
 
 //? ================ INJECT ====================
 private produtoService = inject (produtosService);
-public carrinhoFacade = inject (CarrinhoFacade);
+public carrinhoFacade = inject (CarrinhoFacade)
 
 quantidadeCarrinho = this.carrinhoFacade.quantidadeCarrinho;
 totalCarrinho = this.carrinhoFacade.totalCarrinho;
