@@ -4,14 +4,70 @@
     gap: 16px
 }
 
+.pagina-produtos{
+    display:  flex;
+    flex-direction: colum;
+    gap: 16px;
+}
+
+.cabecalho-produtos{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cabecalho-produtos h2 {
+    margin-bottom: 4px;
+}
+
+.resumo-produtos{
+    border: 1px solid #add;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #fafafa;
+}
+
+.mensagem-erro{
+    border: 1px solid #f3b7b7;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #fff5f5;
+}
+
+.produto-selelcionado{
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.texto-sucesso{
+    color: green;
+    font-weight: bold;
+}
+
+.texto-neutro{
+    color: gray;
+    font-weight: bold;
+}
+
+.rodape div{
+    background-color: #005cbb;
+    padding: 25px;
+}
+
 /*BreakPoinst: Mobile (android e iOS) e Tablet: até 600px*/
-@media (min-width: 600px){
+@media (min-width: 700px){
+    .cabecalho-produtos{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
     .grid-produtos{
         grid-template-columns: repeat(2, 1fr); /*abaixo de 600px vai ser para Mobile, 1 coluna | em 600px para tablet, 2 coluna*/
     }
 }
 /*Breakpoints: Desktop até 9000px*/
-@media(min-width:900px){
+@media(min-width:1000px){
     .grid-produtos{
         grid-template-columns: repeat(3, 1fr); /*em 900px, cria 3 colunas*/
     }
