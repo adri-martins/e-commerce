@@ -1,25 +1,78 @@
+<section class="pagina-produtos">
+  <header class="cabecalho=produtos">
+    <div>
+      <h2> Produtos </h2>
+      <p> Escolha os produtos e addicione-os ao Carrinho!</p>
+    </div>
+    <button mat-stroked-button color="primary" type="button" routerLink="/carrinho">Ver Carrinho ({{carrinhoFacade.quantidadeCarrinho()}})</button>
 
-<h2>Produtos:</h2>
-@if(carregando()){
-    <p>Carregando produtos...</p>
+  </header>
+
+</section>
+<h2> Produtos:
+ @if (produtoSelecionado()){
+    <strong style="color: green">
+        {{ produtoSelecionado() }}</strong>
+}@else { 
+    <span style="color: gray">Nenhum produto selecionado</span>
+
 }
-@if (erro()){
-<p style="color:crimson">{{ erro() }}</p> 
-<button (click )="carregarProdutos()"> Tentar novamente</button>
+</h2>
+
+
+  <!--Estado 1: Loading-->
+@if (carregando()) {
+    <p>Carregando Produtos...</p>
+}
+  @if (erro()){
+    <section class="mensagem-erro"></section>
+    <p style="color: red;">{{ erro() }}</p>
+    <button mat-stroked-button color="primary" (click)="carregarProdutos()">Tentar novamente</button>
+  }
+@if (!carregando() && !erro()){
+  <section class="resumo-produto">
+    <p><strong>Valor total de produtos</strong>{{valorTotalFormatado()}}</p>
+  </section>
+  <hr>
 }
 
-@if(!carregando() && !erro()){
+ @if (!carregando() && !erro()){
     <p>Total de Produtos: {{ totalProdutos() }}</p>
-<hr>
-<section class="grid-produtos">
+
+    <hr>
+    <section class = "grid-produtos">
 @for(item of produtos(); track $index){
-    <app-produto
+    <app-produto 
         [nome] = "item.nome"
         [preco] = "item.preco"
-        (produtoSelecionado)=" exibirProduto($event)"
-        (produtoAdicionado) = "adicionarAoCarrinho($event)"
+        (produtoSelecionado)="exibirProduto($event)"
+        (produtoAdicionado)="adicionarAoCarrinho($event)"
         >
+
     </app-produto>
- }
- </section>
+    
+    }
+    </section>
 }
+<hr>
+<!--<section class="produtoSelecionado">
+  <h3>Produtos Selecionado</h3>
+  @if(produtoSelecionado()){
+    <p class="texto-sucesso">
+      <strong>{{produtoSelecionado()}}</strong>
+    </p>
+  }@else {
+    <p class="texto-neutro">
+      <strong>Nenhum Produto selecionado</strong>
+    </p>
+  }
+
+</section>-->
+<section>
+  <br>
+</section>
+<section class="rodape">
+  <div>
+
+  </div>
+</section>
