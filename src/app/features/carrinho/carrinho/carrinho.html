@@ -1,4 +1,4 @@
-<section class="container-carrinho">
+<section class="pagina-carrinho">
     <h2>Carrinho</h2>
     @if(carrinhoFacade.carrinhoVazio()){
         <p>Seu carrinho está vazio.</p>
@@ -8,8 +8,8 @@
          @for(item of carrinhoFacade.itensCarrinho(); track $index){
             <article class="item-carrinho">
              <div>
-                <p><strong>{{item.nome}}</strong></p>
-                <p>{{item.preco | precoFormatado}}</p>
+                <p class="nome-produto"><strong>{{item.nome}}</strong></p>
+                <p class="preco-produto">{{item.preco | precoFormatado}}</p>
 
                  <button  mat-stroked-button color="warn" type="button" (click)="removerItem($index)">
                 Remover</button>
@@ -21,6 +21,7 @@
         </section>
 
         <section class="resumo-carrinho">
+            <h3>Resumo da Compra</h3>
             <p><strong>Itens no carrinho: </strong> {{ carrinhoFacade.quantidadeCarrinho() }}</p>
             <p><strong>Total: </strong>{{ carrinhoFacade.totalCarrinho() | precoFormatado }}</p>
         </section>
@@ -28,8 +29,8 @@
         <section class="acoes-carrinho">
             <button mat-button type="button" (click)="limparCarrinho()"> Limpar carrinho </button>
             <button mat-button type="button" routerLink="/produtos"> Continuar comprando </button>
-            <button class="acoes-carrinho-confirmar" mat-button type="button" routerLink="/checkout"> Finalizar compra </button>
-            <button class="acao-carrinho-cancelar" mat-button type="button" (click)="cancelarCompra()"> Cancelar compra </button>
+            <button class="carrinho-confirmar" mat-button type="button" routerLink="/checkout"> Finalizar compra </button>
+            <button class="carrinho-cancelar" mat-button type="button" (click)="cancelarCompra()"> Cancelar compra </button>
             
 
         </section>
