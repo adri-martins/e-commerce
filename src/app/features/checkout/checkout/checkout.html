@@ -1,13 +1,15 @@
-<h2>Checkout</h2>
+<section class="pagina-checkout">
 
-@if(pedidoFinalizado()){   <!--atualiza-->
+    <h2>Checkout</h2>
+
+@if(pedidoFinalizado()){   
    <section class="compra-finalizada">
     <h3>COMPRA FINALIZADA COM SUCESSO!</h3>
     <p><strong>Código: </strong>{{pedidoFinalizado()?.codigo}}</p>
     <p><strong>Cliente: </strong>{{pedidoFinalizado()?.cliente}}</p>
     <p><strong>Quantidade: </strong>{{pedidoFinalizado()?.quantidadeItens}}</p>
     <p><strong>Total: </strong>{{pedidoFinalizado()?.total}}</p>
-    <button type="button" routerLink="/produto"> Voltar para compras</button>
+    <button type="button" routerLink="/produto"> Voltar para compras </button>
     
    </section>
 }
@@ -26,8 +28,9 @@
         <button type="button" routerLink="/carrinho"> Revisar carrinho</button>
     </section>
 }
+
 <hr>
-<form [formGroup]="formulario">
+<form [formGroup]="formulario" class="form">
 
     <p><input type="text" formControlName="nome" placeholder="Nome"></p>
     @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
@@ -69,4 +72,4 @@
 
     <button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>
 </form>
-<!--cria cabecalho de nome, email e endereco -->
+</section>
