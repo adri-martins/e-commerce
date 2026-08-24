@@ -9,7 +9,7 @@
     <p><strong>Cliente: </strong>{{pedidoFinalizado()?.cliente}}</p>
     <p><strong>Quantidade: </strong>{{pedidoFinalizado()?.quantidadeItens}}</p>
     <p><strong>Total: </strong>{{pedidoFinalizado()?.total}}</p>
-    <button mat-raised button color="primary" type="button" routerLink="/produto"> Voltar para compras </button>
+    <button mat-raised-button color="primary" type="button" routerLink="/produto"> Voltar para compras </button>
     
    </section>
 }
@@ -30,7 +30,6 @@
 
     
 <form [formGroup]="formulario" class="form">
-<h3>Finalizar Compra!</h3>
     <p><input type="text" formControlName="nome" placeholder="Nome"></p>
     @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
         @if(formulario.get('nome')?.errors?.['required']){
@@ -44,6 +43,7 @@
     }
     @if(formulario.get('nome')?.errors?.['numeroInvalido']){
         <small style="color: blueviolet;">Nome não pode conter Números!</small>
+       
     }
 
     <p><input type="email" formControlName="email" placeholder="E-mail" ></p>
@@ -67,6 +67,7 @@
         <br>
         <small style="color: blueviolet;">Endereço Inválido</small>
     }
+    <h3>Finalizar compra!</h3>
 <br>
 
     <button mat-raised-button color="primary" type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar compra</button>

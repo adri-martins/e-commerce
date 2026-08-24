@@ -1,0 +1,27 @@
+input{
+   padding: 0;
+   
+    box-sizing: border-box;
+}
+
+
+.logout-entrar{
+    background-color: rgb(51, 15, 136);
+    border: 2px solid #fff;
+
+}
+
+.logou-sair:hover{
+    background-color: #b90769;
+    color: #fff;
+    border: 6px solid #ddd;
+}
+
+button{
+    margin: 16px;
+}
+button:hover{
+    background-color: #14519b;
+    color: #fff;
+    border:#d81212
+}

@@ -1,3 +1,4 @@
+
 <h2>Login</h2>
 
 <p>Informe seus dados para acessar a loja.</p>
@@ -17,13 +18,15 @@
             <small style="color:brown;">E-mail inválido</small>
         }
     }
-        <label>Senha</label>
+    <br>
+        <label> Senha </label>
     <p><input type="password" formControlName="senha" placeholder="senha"></p>
     @if(formulario.get('senha')?.touched && formulario.get('senha')?.invalid){
         @if(formulario.get('senha')?.errors?.['required']){
             <br>
             <small style="color:brown;">Senha é obrigatório</small>
         }
+        
         @if(formulario.get('senha')?.errors?.['senha']){
             <br>
             <small style="color:brown;">Senha  inválida.</small>
@@ -33,5 +36,5 @@
          <small style="color:brown;">A senha deve conter no mínimo 3 caracteres!</small>
 }
     }
-       <p><button type="button" (click)="entrar()" [disabled]="formulario.invalid">Entrar</button></p>
+       <p><button  mat-button (click)="entrar()" [disabled]="formulario.invalid">Entrar</button></p>
 </form>
