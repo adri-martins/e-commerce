@@ -1,27 +1,97 @@
-input{
-   padding: 0;
-   
-    box-sizing: border-box;
+/* 1. Criei a caxa sem mexer no html*/
+:host {
+    display: block;
+    max-width: 400px;           /* Tamanho da caixa do login */
+    margin: 40px auto;          /* Centraliza na tela */
+    text-align: center;         /* Padrão */
+    border: 1px solid #ddd;     /* Borda */
+    border-radius: 60px;        /* Arredondamento  */
+    padding: 24px;
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
 }
 
-
-.logout-entrar{
-    background-color: rgb(51, 15, 136);
-    border: 2px solid #fff;
-
+/* 2. Textos e Títulos */
+h2 {
+    color: #333;
+    margin-top: 0;
 }
 
-.logou-sair:hover{
-    background-color: #b90769;
-    color: #fff;
-    border: 6px solid #ddd;
+label {
+    display: block;
+    font-weight: bold;
+    color: #444;
+    margin-top: 15px;
 }
 
-button{
-    margin: 16px;
+/* Tira o espaço exagerado das tegs do meu html */
+p {
+    margin: 5px 0;
 }
-button:hover{
-    background-color: #14519b;
-    color: #fff;
-    border:#d81212
+
+/* 3. Os Inputs  */
+input {
+    width: 100%;
+    border: 1px solid #c9c9c9;
+    border-radius: 25px;       /* O input bem redondo */
+    padding: 10px;
+    box-sizing: border-box;    /* Código para não quebrar a tela */
+    text-align: center;        /* Texto centralizado  */
+    outline: none;
+}
+
+/* Borda roxa quando você clica para digitar */
+input:focus {
+    border-color: rgb(51, 15, 136); 
+}
+
+/* 4. As mensagens de erro */
+small {
+    display: block;
+    color: red !important;     
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+/* 5. O Botão*/
+button {
+    width: 100%;
+    background-color: rgb(51, 15, 136); /* minha cor principal*/
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 25px; /* Combina com o input  */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Só muda para azul se estiver preenchido certo */
+button:hover:not([disabled]) {
+    background-color: #14519b; /* O meu azul */
+}
+
+/* Botão bloqueado (cinza) quando falta dado  */
+button[disabled] {
+    background-color: #e0e0e0;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+/* --- ajeita o olho da senha --- */
+.senha-container {
+    position: relative; 
+}
+.btn-olho {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    width: auto;
+    padding: 0;
 }
