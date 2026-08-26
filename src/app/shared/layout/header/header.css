@@ -17,6 +17,7 @@ mat-toolbar button{
 button:hover{
     background-color: #B7D1EB;
     color: #4C8CCF;
+    transition: 0.4s background-color ease;
 }
 
 .btn-entrar{
